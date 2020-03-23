@@ -53,14 +53,14 @@ public class Shipment_Shower_Freg extends Fragment
              ArrayList<ShipmentItem> ShipmentsList=new ArrayList<ShipmentItem>();
              ShipmentsList.addAll(FromAPI);
 
-            mAdapter = new AdapterShipment(ShipmentsList,getContext());
+
             if(fromMain!=null)
             {
                 ArrayList<ShipmentItem> FilteredShipmentsList=(ArrayList<ShipmentItem>) fromMain.getSerializable("SSF_Array");
-                ((AdapterShipment) mAdapter).updateData(FilteredShipmentsList);
-                mAdapter.notifyDataSetChanged();
+                mAdapter = new AdapterShipment(FilteredShipmentsList,getContext());
                 Toast.makeText(getContext(), "After Search"+mAdapter.getItemCount(), Toast.LENGTH_SHORT).show();
             }
+            else mAdapter = new AdapterShipment(ShipmentsList,getContext());
 
             recyclerView.setAdapter(mAdapter);
             return rootView;

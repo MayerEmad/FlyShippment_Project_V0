@@ -72,9 +72,11 @@ public class MainActivity extends AppCompatActivity implements SearchNavFragment
     @Override
     public void onFiltering(/* GET filtering items*/)
     {
-        Shipment_Shower_Freg SSF=new Shipment_Shower_Freg();
+        Fragment SSF=new Shipment_Shower_Freg();
             //TODO filter for Shipments
             ArrayList<ShipmentItem> ShipmentList = new ArrayList<ShipmentItem>();
+            ShipmentList.add(new ShipmentItem("Shipment 3", R.drawable.ic_launcher_foreground));
+            ShipmentList.add(new ShipmentItem("Shipment 4", R.drawable.ic_launcher_foreground));
             ShipmentList.add(new ShipmentItem("Shipment 5", R.drawable.ic_launcher_foreground));
             ShipmentList.add(new ShipmentItem("Shipment 6", R.drawable.ic_launcher_foreground));
            //TODO save in bundle and

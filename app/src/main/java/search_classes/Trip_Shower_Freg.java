@@ -46,7 +46,7 @@ public class Trip_Shower_Freg extends Fragment
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        RecyclerView.Adapter mAdapter = new AdapterShipment(ShipmentsList);
+        RecyclerView.Adapter mAdapter = new AdapterShipment(ShipmentsList,getContext());
         recyclerView.setAdapter(mAdapter);
 
         return rootView;

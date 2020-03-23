@@ -82,7 +82,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/upper_page"
-            android:background="@color/down" />
+            android:background="@color/down"
+            />
 
     </RelativeLayout>
 

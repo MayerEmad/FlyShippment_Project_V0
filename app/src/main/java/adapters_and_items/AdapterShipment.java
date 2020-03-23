@@ -22,12 +22,14 @@ import java.util.List;
 
 public class AdapterShipment extends RecyclerView.Adapter<AdapterShipment.MyViewHolder>
 {
-    private List<ShipmentItem> ShipmentsList;
+    private ArrayList<ShipmentItem> ShipmentsList;
+    private Context mcontext;
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public AdapterShipment(List<ShipmentItem> DataList)
+    public AdapterShipment(ArrayList<ShipmentItem> DataList,Context con)
     {
         ShipmentsList = DataList;
+        mcontext=con;
     }
 
     //ok
@@ -49,10 +51,10 @@ public class AdapterShipment extends RecyclerView.Adapter<AdapterShipment.MyView
     @Override
     public AdapterShipment.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
-        View listItemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.shipment_item, parent, false);
+        View listItemView = LayoutInflater.from(mcontext).inflate(R.layout.shipment_item, parent, false);
         MyViewHolder vh = new MyViewHolder(listItemView);
+        Log.i("-------------------->", "onCreate ");
         return vh;
-
     }
 
     // ok Replace the contents of a view (invoked by the layout manager)
@@ -63,6 +65,7 @@ public class AdapterShipment extends RecyclerView.Adapter<AdapterShipment.MyView
         // - replace the contents of the view with that element
         holder.textView.setText(ShipmentsList.get(position).getstr());
         holder.imageView.setImageResource(ShipmentsList.get(position).getImageId());
+        Log.i("h--------------------", "onBind "+position);
     }
 
     // ok Return the size of your dataset (invoked by the layout manager)
@@ -71,11 +74,11 @@ public class AdapterShipment extends RecyclerView.Adapter<AdapterShipment.MyView
         return ShipmentsList.size();
     }
 
-    public void updateData(List<ShipmentItem> filteredItems) {
-        Log.i("h--------------------", "before "+ShipmentsList.size());
+    public void updateData(ArrayList<ShipmentItem> filteredItems) {
+       // Log.i("h--------------------", "before "+ShipmentsList.size());
         ShipmentsList.clear();
-        ShipmentsList=filteredItems;
-        Log.i("h--------------------", "after "+ShipmentsList.size());
+        ShipmentsList.addAll(filteredItems);
+        //Log.i("h--------------------", "after "+ShipmentsList.size());
         this.notifyDataSetChanged();
     }
     public void clear() {

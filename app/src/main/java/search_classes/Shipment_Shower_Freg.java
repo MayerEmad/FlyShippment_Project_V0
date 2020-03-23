@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -32,6 +33,8 @@ public class Shipment_Shower_Freg extends Fragment
 
         //FragmentManager fragmentManager=getChildFragmentManager().beginTransaction().replace(R.id.container_frame,new SearchNavFragment()).commit();
     }
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter ;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -41,39 +44,33 @@ public class Shipment_Shower_Freg extends Fragment
         //TODO get from Bundle
          Bundle fromMain= getArguments();
 
-            RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rc1);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView = (RecyclerView) rootView.findViewById(R.id.rc1);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
             recyclerView.setLayoutManager(layoutManager);
             recyclerView.setHasFixedSize(true);
 
              ArrayList<ShipmentItem> FromAPI=(ArrayList<ShipmentItem>) DataProvider.getShipments();
              ArrayList<ShipmentItem> ShipmentsList=new ArrayList<ShipmentItem>();
              ShipmentsList.addAll(FromAPI);
-             RecyclerView.Adapter mAdapter = new AdapterShipment(ShipmentsList);
-        if(fromMain!=null)
-        {
-            ArrayList<ShipmentItem> FilteredShipmentsList=(ArrayList<ShipmentItem>) fromMain.getSerializable("SSF_Array");
-            ShipmentsList=FilteredShipmentsList;
-            ((AdapterShipment) mAdapter).updateData(ShipmentsList);
-            Toast.makeText(getContext(), "After Search"+mAdapter.getItemCount(), Toast.LENGTH_SHORT).show();
-        }
 
-        recyclerView.setAdapter(mAdapter);
+            mAdapter = new AdapterShipment(ShipmentsList,getContext());
+            if(fromMain!=null)
+            {
+                ArrayList<ShipmentItem> FilteredShipmentsList=(ArrayList<ShipmentItem>) fromMain.getSerializable("SSF_Array");
+                ((AdapterShipment) mAdapter).updateData(FilteredShipmentsList);
+                mAdapter.notifyDataSetChanged();
+                Toast.makeText(getContext(), "After Search"+mAdapter.getItemCount(), Toast.LENGTH_SHORT).show();
+            }
 
-
-
-           /* listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-            {@Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int index, long l)
-                { ShipmentItem item = ShipmentsList.get(index); }
-            });*/
-
+            recyclerView.setAdapter(mAdapter);
             return rootView;
     }
 
     @Override
     public void onDestroyView() {
         //Log.i("Shipment_Shower_Freg", "----------------------The Son Fregment is dead now");
+        Toast.makeText(getContext(), "Shipment_Shower_Fregment is dead now ", Toast.LENGTH_SHORT).show();
+
         super.onDestroyView();
     }
 

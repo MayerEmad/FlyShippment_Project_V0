@@ -13,8 +13,6 @@ public class DataProvider
     private static final List<ShipmentItem> ShipmentList = new ArrayList<ShipmentItem>() {{
         add(new ShipmentItem("Shipment 1", R.drawable.ic_launcher_foreground));
         add(new ShipmentItem("Shipment 2", R.drawable.ic_launcher_foreground));
-        add(new ShipmentItem("Shipment 3", R.drawable.ic_launcher_foreground));
-        add(new ShipmentItem("Shipment 4", R.drawable.ic_launcher_foreground));
     }};
 
     public static List<ShipmentItem> getShipments() {

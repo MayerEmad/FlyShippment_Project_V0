@@ -1,12 +1,19 @@
 <!-- List the Items Of Shipment_Shower_Freg & Trip_Shower_Freg-->
 
-<androidx.recyclerview.widget.RecyclerView
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rc1"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:drawSelectorOnTop="true"
-    android:background="@color/down"
-    tools:ignore="InvalidId" />
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rc1"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:drawSelectorOnTop="true"
+        android:background="@color/down"
+        tools:ignore="InvalidId" />
+
+</FrameLayout>
+

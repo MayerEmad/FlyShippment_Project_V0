@@ -65,7 +65,7 @@ public class AdapterShipment extends RecyclerView.Adapter<AdapterShipment.MyView
         // - replace the contents of the view with that element
         holder.textView.setText(ShipmentsList.get(position).getstr());
         holder.imageView.setImageResource(ShipmentsList.get(position).getImageId());
-        Log.i("h--------------------", "onBind "+position);
+        Log.i("AdapterShipment--------", "onBind "+ShipmentsList.get(position).getstr());
     }
 
     // ok Return the size of your dataset (invoked by the layout manager)
@@ -75,10 +75,9 @@ public class AdapterShipment extends RecyclerView.Adapter<AdapterShipment.MyView
     }
 
     public void updateData(ArrayList<ShipmentItem> filteredItems) {
-       // Log.i("h--------------------", "before "+ShipmentsList.size());
+        Log.i("Adapter Shipment","-------------Update is called");
         ShipmentsList.clear();
         ShipmentsList.addAll(filteredItems);
-        //Log.i("h--------------------", "after "+ShipmentsList.size());
         this.notifyDataSetChanged();
     }
     public void clear() {

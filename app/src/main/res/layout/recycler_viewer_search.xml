@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:drawSelectorOnTop="true"
         android:background="@color/down"
-        tools:ignore="InvalidId" />
+        tools:ignore="" />
 
 </FrameLayout>
 

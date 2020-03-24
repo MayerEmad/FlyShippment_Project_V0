@@ -38,7 +38,7 @@ public class Trip_Shower_Freg extends Fragment
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.recycler_viewer_search, container, false);
 
-        final ArrayList<ShipmentItem>  ShipmentsList = (ArrayList<ShipmentItem>) DataProvider.getShipments();
+        final ArrayList<ShipmentItem>  ShipmentsList = (ArrayList<ShipmentItem>) DataProvider.getTrips();
 
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.rc1);
 

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import adapters_and_items.AdapterShipment;
 import com.example.flyshippment_project.R;
 
+import adapters_and_items.AdapterViewer;
 import adapters_and_items.DataProvider;
 import adapters_and_items.ShipmentItem;
 import java.util.ArrayList;
@@ -52,25 +53,21 @@ public class Shipment_Shower_Freg extends Fragment
              ArrayList<ShipmentItem> FromAPI=(ArrayList<ShipmentItem>) DataProvider.getShipments();
              ArrayList<ShipmentItem> ShipmentsList=new ArrayList<ShipmentItem>();
              ShipmentsList.addAll(FromAPI);
-
-
             if(fromMain!=null)
             {
+                Log.i("Shipment_Shower_Freg", " ----- Will update Data  ");
                 ArrayList<ShipmentItem> FilteredShipmentsList=(ArrayList<ShipmentItem>) fromMain.getSerializable("SSF_Array");
-                mAdapter = new AdapterShipment(FilteredShipmentsList,getContext());
-                Toast.makeText(getContext(), "After Search"+mAdapter.getItemCount(), Toast.LENGTH_SHORT).show();
+                ((AdapterShipment) mAdapter).updateData(FilteredShipmentsList);
+                Log.i("Shipment_Shower_Freg", " ----- After update recyclerAdapterSize = "+mAdapter.getItemCount());
             }
-            else mAdapter = new AdapterShipment(ShipmentsList,getContext());
-
+            mAdapter = new AdapterShipment(ShipmentsList,getContext());
             recyclerView.setAdapter(mAdapter);
             return rootView;
     }
 
     @Override
     public void onDestroyView() {
-        //Log.i("Shipment_Shower_Freg", "----------------------The Son Fregment is dead now");
         Toast.makeText(getContext(), "Shipment_Shower_Fregment is dead now ", Toast.LENGTH_SHORT).show();
-
         super.onDestroyView();
     }
 

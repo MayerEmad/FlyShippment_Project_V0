@@ -7,30 +7,37 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import search_classes.Shipment_Shower_Freg;
 import search_classes.Trip_Shower_Freg;
 
-public class AdapterTaps extends FragmentPagerAdapter
+public class AdapterViewer extends FragmentStatePagerAdapter
 {
 
-    public AdapterTaps(@NonNull FragmentManager fm, int behavior) {
+    public AdapterViewer(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
 
     @Override
     public Fragment getItem(int position) {
-
         if (position == 0) {
-            //Log.i("AdapterTaps", "----------Shipment_Shower_Freg is Created");
+            Log.i("AdapterViewer", "----------Shipment_Shower_Freg is Created");
             return new Shipment_Shower_Freg();
         } else {
-            //Log.i("AdapterTaps", "----------Trip_Shower_Freg is created");
+            Log.i("AdapterViewer", "----------Trip_Shower_Freg is created");
             return new Trip_Shower_Freg();
         }
     }
     @Override
     public int getCount() { return 2; }
+
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        Log.i("AdapterViewer", "----------haaaaaaaaaaaaaaaaaaaaaaaaaay");
+      return POSITION_NONE;
+       // return super.getItemPosition(object);
+    }
 
     @Nullable
     @Override

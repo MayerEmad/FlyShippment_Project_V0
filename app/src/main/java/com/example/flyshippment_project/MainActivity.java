@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -85,6 +86,8 @@ public class MainActivity extends AppCompatActivity implements SearchNavFragment
             //TODO send
             SSF.setArguments(SSF_bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.search_page_viewer,SSF).commit();
-          //  Toast.makeText(this, "From SearchNav ----------> To MainActivity", Toast.LENGTH_SHORT).show();
+           Log.i("Main", " ------------------Data is sent to Shipment_Shower  ");
+
+        //  Toast.makeText(this, "From SearchNav ----------> To MainActivity", Toast.LENGTH_SHORT).show();
     }
 }

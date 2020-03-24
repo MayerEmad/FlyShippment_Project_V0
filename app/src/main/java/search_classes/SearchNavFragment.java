@@ -12,15 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import adapters_and_items.AdapterTaps;
-import adapters_and_items.ShipmentItem;
+import adapters_and_items.AdapterViewer;
 
 import com.example.flyshippment_project.R;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
-
-import static androidx.fragment.app.FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
 
 public class SearchNavFragment extends Fragment
 {
@@ -57,10 +52,10 @@ public class SearchNavFragment extends Fragment
         View rootView= inflater.inflate(R.layout.fragment_search_nav, container, false);
 
         // Create an adapter that knows which fragment should be shown on each page
-        AdapterTaps adapter = new AdapterTaps(getChildFragmentManager(),1);
+        final AdapterViewer adapter = new AdapterViewer(getChildFragmentManager(),1);
 
         // Viewer page hosts the Shipment_Shower_Freg & Trip_Shower_Freg
-        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.search_page_viewer);
+        final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.search_page_viewer);
         viewPager.setAdapter(adapter);
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.search_page_upper_tab);
         tabLayout.setupWithViewPager(viewPager);
@@ -73,7 +68,12 @@ public class SearchNavFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-               mCallback.onFiltering();
+                Log.i("SearchNavFregment", " -------Calling on Click ");
+                mCallback.onFiltering();
+                Log.i("SearchNavFregment", " -------Notifing the Viewer with Changes ");
+                adapter.notifyDataSetChanged();
+                Log.i("SearchNavFregment", " -------Notified");
+                //viewPager.setAdapter(adapter);
             }
         });
 
@@ -82,7 +82,6 @@ public class SearchNavFragment extends Fragment
 
     @Override
     public void onDestroy() {
-        Log.i("SearchNavFragment", " ------------------The Big Search Fregment is Dead now. ");
         super.onDestroy();
     }
 

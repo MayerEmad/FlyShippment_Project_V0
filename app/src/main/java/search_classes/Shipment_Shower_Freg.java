@@ -1,31 +1,28 @@
 package search_classes;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import adapters_and_items.AdapterShipment;
+import adapters_and_items.AdapterRecyclerShipment;
 import com.example.flyshippment_project.R;
 
-import adapters_and_items.AdapterViewer;
-import adapters_and_items.DataProvider;
+import adapters_and_items.Repository;
 import adapters_and_items.ShipmentItem;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class Shipment_Shower_Freg extends Fragment
 {
@@ -40,35 +37,28 @@ public class Shipment_Shower_Freg extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         //Its Layout is the Recycler View as Trip_Shower_Freg
-        View rootView= inflater.inflate(R.layout.recycler_viewer_search, container, false);
-
-        //TODO get from Bundle
-         Bundle fromMain= getArguments();
-
-            recyclerView = (RecyclerView) rootView.findViewById(R.id.rc1);
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
-            recyclerView.setLayoutManager(layoutManager);
-            recyclerView.setHasFixedSize(true);
-
-             ArrayList<ShipmentItem> FromAPI=(ArrayList<ShipmentItem>) DataProvider.getShipments();
-             ArrayList<ShipmentItem> ShipmentsList=new ArrayList<ShipmentItem>();
-             ShipmentsList.addAll(FromAPI);
-            if(fromMain!=null)
-            {
-                Log.i("Shipment_Shower_Freg", " ----- Will update Data  ");
-                ArrayList<ShipmentItem> FilteredShipmentsList=(ArrayList<ShipmentItem>) fromMain.getSerializable("SSF_Array");
-                ((AdapterShipment) mAdapter).updateData(FilteredShipmentsList);
-                Log.i("Shipment_Shower_Freg", " ----- After update recyclerAdapterSize = "+mAdapter.getItemCount());
-            }
-            mAdapter = new AdapterShipment(ShipmentsList,getContext());
-            recyclerView.setAdapter(mAdapter);
-            return rootView;
+        return inflater.inflate(R.layout.recycler_viewer_search, container, false);
     }
 
     @Override
-    public void onDestroyView() {
-        Toast.makeText(getContext(), "Shipment_Shower_Fregment is dead now ", Toast.LENGTH_SHORT).show();
-        super.onDestroyView();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
+        recyclerView = (RecyclerView) view.findViewById(R.id.rc1);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setHasFixedSize(true);
+
+        // For the first time before applying any Filtering
+        ArrayList<ShipmentItem> FromAPI=(ArrayList<ShipmentItem>) Repository.getShipments();
+        recyclerView.setAdapter(new AdapterRecyclerShipment(FromAPI));
+
+        //When the Data from the API Changes due to Filtering it will be updated here
+        final SearchViewModel viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        viewModel.getShipmentLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ShipmentItem>>() {
+            @Override
+            public void onChanged(ArrayList<ShipmentItem> shipmentItems) {
+                recyclerView.setAdapter(new AdapterRecyclerShipment( shipmentItems));
+            }
+        });
     }
 
 }

@@ -3,7 +3,10 @@ package search_classes;
 import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import android.util.Log;
@@ -11,11 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import adapters_and_items.AdapterViewer;
+import adapters_and_items.ShipmentItem;
 
 import com.example.flyshippment_project.R;
 import com.google.android.material.tabs.TabLayout;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 public class SearchNavFragment extends Fragment
 {
@@ -24,67 +35,84 @@ public class SearchNavFragment extends Fragment
         // Required empty public constructor
     }
 
-    // OnSearchButtonClickListenerInterface interface, calls a method in the host activity named onFiltering
-    public interface OnSearchButtonClickListenerInterface {
-        void onFiltering();
-    }
-    // Define a new interface OnSearchButtonClickListenerInterface that triggers a callback in the host activity
-    OnSearchButtonClickListenerInterface mCallback;
+    private SearchViewModel viewModel;
+    private String fromCountery="";
+    private String toCountery="";
+    private double weight=0;
+    private Date date;
 
-    // Override onAttach to make sure that the container activity has implemented the callback
-    @Override
-    public void onAttach(Context context)
+    private Date StringToDate(String dob) throws ParseException
     {
-        super.onAttach(context);
-        // This makes sure that the host activity has implemented the callback interface
-        // If not, it throws an exception
-        try {
-            mCallback = (OnSearchButtonClickListenerInterface) context;
-        } catch (ClassCastException e)
-        {
-         //   throw new ClassCastException(context.toString() + " must implement OnSearchButtonClickListener");
-        }
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+        Date date = formatter.parse(dob);
+        //System.out.println("Date object value: "+date);
+        return date;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    private ArrayList<ShipmentItem> getFilteredShipments()
     {
-        View rootView= inflater.inflate(R.layout.fragment_search_nav, container, false);
+        ArrayList<ShipmentItem> ShipmentList = new ArrayList<ShipmentItem>();
+        ShipmentList.add(new ShipmentItem("Urll",8.40,5,"AfterSearchSH1","NewYork","Cairo","10/4/2020",
+            16.50,"Urll","Mayer Emad",3.5));
+        ShipmentList.add(new ShipmentItem("Urll",8.40,5,"AfterSearch1","NewYork","Cairo","10/4/2020",
+                16.50,"Urll","Mayer Emad",3.5));
 
+        return ShipmentList;
+    }
+
+    private ArrayList<ShipmentItem> getFilteredTrips()
+    {
+        ArrayList<ShipmentItem> TripList = new ArrayList<ShipmentItem>();
+        TripList.add(new ShipmentItem("Urll",8.40,5,"AfterSearchTT1","NewYork","Cairo","10/4/2020",
+                16.50,"Urll","Mayer Emad",3.5));
+        return TripList;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_search_nav, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    {
         // Create an adapter that knows which fragment should be shown on each page
         final AdapterViewer adapter = new AdapterViewer(getChildFragmentManager(),1);
 
         // Viewer page hosts the Shipment_Shower_Freg & Trip_Shower_Freg
-        final ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.search_page_viewer);
+        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.search_page_viewer);
         viewPager.setAdapter(adapter);
-        TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.search_page_upper_tab);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.search_page_upper_tab);
         tabLayout.setupWithViewPager(viewPager);
 
-       //TODO  ------------------Filtering---------------------
+        Button searchButton = (Button)view.findViewById(R.id.search_button);
+        final EditText et_to=(EditText)view.findViewById(R.id.to);
+        final EditText et_from=(EditText)view.findViewById(R.id.from);
+        final EditText et_weight=(EditText)view.findViewById(R.id.weight);
+        final EditText et_date=(EditText)view.findViewById(R.id.date);
 
-        Button searchButton = (Button)rootView.findViewById(R.id.search_button);
+
+        viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        // on Searching..
         searchButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                Log.i("SearchNavFregment", " -------Calling on Click ");
-                mCallback.onFiltering();
-                Log.i("SearchNavFregment", " -------Notifing the Viewer with Changes ");
-                adapter.notifyDataSetChanged();
-                Log.i("SearchNavFregment", " -------Notified");
-                //viewPager.setAdapter(adapter);
+              /*  fromCountery=et_from.getText().toString();
+                toCountery=et_to.getText().toString();
+                weight=Double.parseDouble(et_weight.getText().toString());
+                try {
+                    date = StringToDate(et_date.getText().toString());
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                } */
+
+                //TODO apply filtering and store them in list
+
+                viewModel.setShipmentLiveData(getFilteredShipments());
+                viewModel.setTripLiveData(getFilteredTrips());
             }
         });
-
-        return rootView;
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
-
-
-
 }

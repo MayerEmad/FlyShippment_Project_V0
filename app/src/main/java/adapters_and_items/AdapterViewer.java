@@ -14,7 +14,6 @@ import search_classes.Trip_Shower_Freg;
 
 public class AdapterViewer extends FragmentStatePagerAdapter
 {
-
     public AdapterViewer(@NonNull FragmentManager fm, int behavior) {
         super(fm, behavior);
     }
@@ -29,15 +28,9 @@ public class AdapterViewer extends FragmentStatePagerAdapter
             return new Trip_Shower_Freg();
         }
     }
-    @Override
-    public int getCount() { return 2; }
 
     @Override
-    public int getItemPosition(@NonNull Object object) {
-        Log.i("AdapterViewer", "----------haaaaaaaaaaaaaaaaaaaaaaaaaay");
-      return POSITION_NONE;
-       // return super.getItemPosition(object);
-    }
+    public int getCount() { return 2; }
 
     @Nullable
     @Override

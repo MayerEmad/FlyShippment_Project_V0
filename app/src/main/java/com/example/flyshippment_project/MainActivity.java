@@ -21,7 +21,7 @@ import login_rejester_splash.SplashScreen;
 import search_classes.SearchNavFragment;
 import search_classes.Shipment_Shower_Freg;
 
-public class MainActivity extends AppCompatActivity implements SearchNavFragment.OnSearchButtonClickListenerInterface
+public class MainActivity extends AppCompatActivity
 {
     private static final String TAG = "MainActivity";
     private static boolean goToSplash=true;
@@ -67,27 +67,6 @@ public class MainActivity extends AppCompatActivity implements SearchNavFragment
         BottomNavigationView bottomNav=findViewById(R.id.bottom_nav);
         getSupportFragmentManager().beginTransaction().replace(R.id.container_frame,new SearchNavFragment()).commit(); //Default
         bottomNav.setOnNavigationItemSelectedListener(navListener);
-
     }
 
-    @Override
-    public void onFiltering(/* GET filtering items*/)
-    {
-        Fragment SSF=new Shipment_Shower_Freg();
-            //TODO filter for Shipments
-            ArrayList<ShipmentItem> ShipmentList = new ArrayList<ShipmentItem>();
-            ShipmentList.add(new ShipmentItem("Shipment 3", R.drawable.ic_launcher_foreground));
-            ShipmentList.add(new ShipmentItem("Shipment 4", R.drawable.ic_launcher_foreground));
-            ShipmentList.add(new ShipmentItem("Shipment 5", R.drawable.ic_launcher_foreground));
-            ShipmentList.add(new ShipmentItem("Shipment 6", R.drawable.ic_launcher_foreground));
-           //TODO save in bundle and
-            Bundle SSF_bundle=new Bundle();
-            SSF_bundle.putSerializable("SSF_Array",(Serializable)ShipmentList);
-            //TODO send
-            SSF.setArguments(SSF_bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.search_page_viewer,SSF).commit();
-           Log.i("Main", " ------------------Data is sent to Shipment_Shower  ");
-
-        //  Toast.makeText(this, "From SearchNav ----------> To MainActivity", Toast.LENGTH_SHORT).show();
-    }
 }

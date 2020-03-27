@@ -85,6 +85,7 @@ public class AdapterRecyclerShipment extends RecyclerView.Adapter<AdapterRecycle
     // ok Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
+        if(ShipmentsList==null) return 0;
         return ShipmentsList.size();
     }
 

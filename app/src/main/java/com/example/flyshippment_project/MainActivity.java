@@ -4,7 +4,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -62,7 +66,16 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        // Check if the device is connected to the internet
+        ConnectivityManager cm = (ConnectivityManager)this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        if(isConnected) {
+            Toast.makeText(this, "Connected  ", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            Toast.makeText(this, "No net  ", Toast.LENGTH_SHORT).show();
+        }
         // Bottom Navigation Bar Listener
         BottomNavigationView bottomNav=findViewById(R.id.bottom_nav);
         getSupportFragmentManager().beginTransaction().replace(R.id.container_frame,new SearchNavFragment()).commit(); //Default

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import adapters_and_items.AdapterRecyclerShipment;
 import com.example.flyshippment_project.R;
@@ -38,22 +39,30 @@ public class Shipment_Shower_Freg extends Fragment
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
+    public void onViewCreated(@NonNull  View view, @Nullable Bundle savedInstanceState)
     {
+        final SearchViewModel viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        final View loadingIndicator = view.findViewById(R.id.loading_indicator);
         recyclerView = (RecyclerView) view.findViewById(R.id.rc1);
+
+        //Intialise the Recycler Viewer
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
+        mAdapter=new AdapterRecyclerShipment(Repository.getShipmentsFromApi());
+        recyclerView.setAdapter(mAdapter);
 
-        // For the first time before applying any Filtering
-        ArrayList<ShipmentItem> FromAPI=Repository.getShipmentsFromApi();
-        recyclerView.setAdapter(new AdapterRecyclerShipment(FromAPI));
+        // For the first time API will take time to get Shipments from doInBackground
+        // So after we get Shipments AsyncTask onPostExecute will update LiveData
+        loadingIndicator.setVisibility(View.VISIBLE);  /*TODO Problem*/
 
-        //When the Data from the API Changes due to Filtering it will be updated here
-        final SearchViewModel viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        //When the LiveData  Changes due to Loading or Filtering it will be updated here
         viewModel.getShipmentLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ShipmentItem>>() {
             @Override
             public void onChanged(ArrayList<ShipmentItem> shipmentItems) {
                 recyclerView.setAdapter(new AdapterRecyclerShipment( shipmentItems));
+
+                // Remove the Progress par
+                loadingIndicator.setVisibility(View.GONE);
             }
         });
     }

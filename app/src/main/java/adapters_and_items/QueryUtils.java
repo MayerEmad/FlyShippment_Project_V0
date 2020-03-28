@@ -1,5 +1,7 @@
 package adapters_and_items;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -44,18 +46,18 @@ public final class QueryUtils {
                 JSONObject currentItem = itemsArray.getJSONObject(i);
                  String prodImageURL=currentItem.getString("image");
                  String profileImageURL=currentItem.getString("url");
-                 String prodName="not_yet";
+                 String prodName=currentItem.getString("name");
                  String counteryFrom=currentItem.getString("from_country");
                  String counteryTo=currentItem.getString("to_country");
                  String lastDate=currentItem.getString("deadline");
-                 String profileName="not_yet";
+                 String profileName=currentItem.getString("username");
                  double reward=currentItem.getDouble("price");
                  double weight=currentItem.getDouble("weight");
-                 double itemsNumber=-1;
-                 double rate=0;
+                 double itemsNumber=currentItem.getInt("count");
+                 double rate=currentItem.getDouble("rate");
 
-                ShipmentItem item = new ShipmentItem( prodImageURL , weight , itemsNumber, prodName, counteryFrom,counteryTo,lastDate,
-                                                     reward, profileImageURL, profileName,  rate);
+                ShipmentItem item = new ShipmentItem( bt(prodImageURL) , weight , itemsNumber, prodName, counteryFrom,counteryTo,lastDate,
+                                                     reward, bt(profileImageURL), profileName,  rate);
                 ShipmentItemsListAPI.add(item);
             }
         }
@@ -111,6 +113,20 @@ public final class QueryUtils {
             }
         }
         return jsonResponse;
+    }
+
+    public static Bitmap bt(String path)
+    {
+        URL url = null;
+         url= createUrl(path);
+        Bitmap bmp = null;
+        try {
+           // Log.i("QueryUtils", "-------path= "+path);
+            bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmp;
     }
 
     // Convert the {@link InputStream} into a String which contains the whole JSON response from the server.

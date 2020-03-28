@@ -17,12 +17,13 @@ import android.view.ViewGroup;
 import adapters_and_items.AdapterRecyclerShipment;
 import com.example.flyshippment_project.R;
 
+import adapters_and_items.AdapterRecyclerTrip;
 import adapters_and_items.Repository;
 import adapters_and_items.ShipmentItem;
+import adapters_and_items.TripItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -53,16 +54,16 @@ public class Trip_Shower_Freg extends Fragment
         recyclerView.setHasFixedSize(true);
 
         // For the first time before applying any Filtering
-        ArrayList<ShipmentItem> FromAPI=(ArrayList<ShipmentItem>) Repository.getTrips();
-        recyclerView.setAdapter(new AdapterRecyclerShipment(FromAPI));
+        ArrayList<TripItem> FromAPI=Repository.getTrips();
+        recyclerView.setAdapter(new AdapterRecyclerTrip(FromAPI));
 
         //TODO  (Edit)ShipmentItem -> TripItem
         //When the Data from the API Changes due to Filtering it will be updated here
         final SearchViewModel viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
-        viewModel.getTripLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<ShipmentItem>>() {
+        viewModel.getTripLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<TripItem>>() {
             @Override
-            public void onChanged(ArrayList<ShipmentItem> tripItems) {
-                recyclerView.setAdapter(new AdapterRecyclerShipment( tripItems));
+            public void onChanged(ArrayList<TripItem> tripItems) {
+                recyclerView.setAdapter(new AdapterRecyclerTrip(tripItems));
             }
         });
     }

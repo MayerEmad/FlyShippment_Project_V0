@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 
@@ -19,42 +20,31 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import search_classes.SearchViewModel;
+
 public class Repository
 {
-    static String url_str="a";
-   /* private static final List<ShipmentItem> ShipmentList = new ArrayList<ShipmentItem>() {{
-        add(new ShipmentItem(url_str,8.40,5,"mobile","NewYork","Cairo","10/4/2020",
-                            16.50,url_str,"Mayer Emad",3.5));
-        add(new ShipmentItem(url_str,20.5,1,"bag","London","Alexandria","1/4/2020",
-                            200.99,url_str,"Mero Gamed",2.5));
-        add(new ShipmentItem(url_str,3.00,2,"Computer","Assuit","Tokyo","29/3/2020",
-                             5.20,url_str,"7mada Mshakel",3.5));
-    }};*/
     private static final String SHIPMENT_ITEMS_REQUEST_URL="http://www.originaliereny.com/shipping/public/api/shipInfo";
 
-    private static final ArrayList<ShipmentItem> ShipmentList=new ArrayList<ShipmentItem>();
+    // for RecyclerShipment we use LiveData
+    // Data is stored in  SearchViewModel.getShipmentLiveData().getValue();
     public static ArrayList<ShipmentItem> getShipmentsFromApi()
     {
         ShipmentApiAsyncTask task = new ShipmentApiAsyncTask();
         task.execute();
-        return ShipmentList;
+        return SearchViewModel.getShipmentLiveData().getValue();
     }
 
-
-    private static final List<ShipmentItem> TripList = new ArrayList<ShipmentItem>() {{
-        add(new ShipmentItem(url_str,8.40,5,"Trip1","Cairo","NewYork","10/4/2020",
-                16.50,url_str,"Mayer Emad",3.5));
-        add(new ShipmentItem(url_str,20.5,1,"Trip2","London","Alexandria","1/4/2020",
-                200.99,url_str,"Mero Gamed",2.5));
-        add(new ShipmentItem(url_str,3.00,2,"Trip3","Assuit","Tokyo","29/3/2020",
-                5.20,url_str,"7mada Mshakel",3.5));
+    private static final ArrayList<TripItem> TripList = new ArrayList<TripItem>() {{
+        add(new TripItem("NewYork","Cairo","10/4/2020",5.5,3.5 ,null,"Mayer Emad",3.5));
+        add(new TripItem("London","Assuit","1/4/2020",33,4 ,null,"Mayer Emad",3.5));
+        add(new TripItem("China","Alex","9/3/2020",13,9.4 ,null,"Mayer Emad",3.5));
     }};
-
-    public static List<ShipmentItem> getTrips() {
+    public static ArrayList<TripItem>  getTrips() {
         return TripList;
     }
 
-    // TODO --------------- Networking in BackGround---------------
+    // TODO --------------- Networking in BackGround Shipments---------------
     private static class ShipmentApiAsyncTask extends AsyncTask<Void, Void, ArrayList<ShipmentItem>>
     {
         @Override
@@ -66,11 +56,12 @@ public class Repository
 
         @Override
         protected void onPostExecute(ArrayList<ShipmentItem> data) {
-            ShipmentList.clear();
-            ShipmentList.addAll(data);
+            SearchViewModel.setShipmentLiveData(data);   //Update Recycler View Adapters
         }
     }
 
+    // TODO --------------- Networking in BackGround Trips---------------
+    // String imgURL = places.getImage();
+    //Picasso.with(context).load(imgURL).into(holder.imageView);
 }
-
 

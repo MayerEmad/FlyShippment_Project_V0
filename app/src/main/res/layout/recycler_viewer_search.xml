@@ -15,9 +15,7 @@
         android:background="@color/down"
         tools:ignore="" />
 
-    <!--
-    View loadingIndicator = view.findViewById(R.id.loading_indicator);
-        loadingIndicator.setVisibility(View.GONE);
+
     <ProgressBar
         android:id="@+id/loading_indicator"
         style="@style/Widget.AppCompat.ProgressBar"
@@ -25,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         />
-     -->
+
 
 </FrameLayout>
 

@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity
     private static boolean goToSplash=true;
 
 
-    private BottomNavigationView.OnNavigationItemSelectedListener navListener=
-            new BottomNavigationView.OnNavigationItemSelectedListener()
+    private BottomNavigationView.OnNavigationItemSelectedListener navListener= new BottomNavigationView.OnNavigationItemSelectedListener()
             {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

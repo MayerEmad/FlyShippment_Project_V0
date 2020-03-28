@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import adapters_and_items.AdapterViewer;
 import adapters_and_items.ShipmentItem;
+import adapters_and_items.TripItem;
 
 import com.example.flyshippment_project.R;
 import com.google.android.material.tabs.TabLayout;
@@ -52,19 +53,17 @@ public class SearchNavFragment extends Fragment
     private ArrayList<ShipmentItem> getFilteredShipments()
     {
         ArrayList<ShipmentItem> ShipmentList = new ArrayList<ShipmentItem>();
-        ShipmentList.add(new ShipmentItem("Urll",8.40,5,"AfterSearchSH1","NewYork","Cairo","10/4/2020",
+       /* ShipmentList.add(new ShipmentItem("Urll",8.40,5,"AfterSearchSH1","NewYork","Cairo","10/4/2020",
             16.50,"Urll","Mayer Emad",3.5));
         ShipmentList.add(new ShipmentItem("Urll",8.40,5,"AfterSearch1","NewYork","Cairo","10/4/2020",
-                16.50,"Urll","Mayer Emad",3.5));
+                16.50,"Urll","Mayer Emad",3.5));*/
 
         return ShipmentList;
     }
 
-    private ArrayList<ShipmentItem> getFilteredTrips()
+    private ArrayList<TripItem> getFilteredTrips()
     {
-        ArrayList<ShipmentItem> TripList = new ArrayList<ShipmentItem>();
-        TripList.add(new ShipmentItem("Urll",8.40,5,"AfterSearchTT1","NewYork","Cairo","10/4/2020",
-                16.50,"Urll","Mayer Emad",3.5));
+        ArrayList<TripItem> TripList = new ArrayList<TripItem>();
         return TripList;
     }
 

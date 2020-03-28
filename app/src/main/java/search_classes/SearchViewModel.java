@@ -8,28 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 import adapters_and_items.ShipmentItem;
+import adapters_and_items.TripItem;
 
 public class SearchViewModel extends ViewModel
 {
-    private MutableLiveData<ArrayList<ShipmentItem>> ShipmentListLiveData = new MutableLiveData<ArrayList<ShipmentItem>>();
-
-    public LiveData<ArrayList<ShipmentItem>> getShipmentLiveData() {
+    //For Shipments
+    private static MutableLiveData<ArrayList<ShipmentItem>> ShipmentListLiveData = new MutableLiveData<ArrayList<ShipmentItem>>();
+    public static LiveData<ArrayList<ShipmentItem>> getShipmentLiveData() {
         return ShipmentListLiveData;
     }
+    public static void setShipmentLiveData(ArrayList<ShipmentItem> data) { ShipmentListLiveData.setValue(data); }
 
-    public void setShipmentLiveData(ArrayList<ShipmentItem> data) { ShipmentListLiveData.setValue(data); }
-
-
-    //Todo (Edit) ShipmentItem->TripItem
-    private MutableLiveData<ArrayList<ShipmentItem>> TripListLiveData = new MutableLiveData<ArrayList<ShipmentItem>>();
-    //Todo (Edit)ShipmentItem->TripItem
-    public LiveData<ArrayList<ShipmentItem>> getTripLiveData() {
+    // For Trips
+    private static MutableLiveData<ArrayList<TripItem>> TripListLiveData = new MutableLiveData<ArrayList<TripItem>>();
+    public static LiveData<ArrayList<TripItem>> getTripLiveData() {
         return TripListLiveData;
     }
-    //Todo (Edit) ShipmentItem->TripItem
-    public void setTripLiveData(ArrayList<ShipmentItem> data) {
-        TripListLiveData.setValue(data);
-    }
+    public static void setTripLiveData(ArrayList<TripItem> data) { TripListLiveData.setValue(data); }
 
 }
 

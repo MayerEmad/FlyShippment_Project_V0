@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,21 +50,29 @@ public class Trip_Shower_Freg extends Fragment
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState)
     {
+        Log.i("refresh", "---------------ViewCreated---------------------: ");
+        final SearchViewModel viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        final View loadingIndicator = view.findViewById(R.id.loading_indicator);
         recyclerView = (RecyclerView) view.findViewById(R.id.rc1);
+
+        //Intialise the Recycler Viewer
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
+        mAdapter=new AdapterRecyclerTrip(Repository.getTripsFromApi(),getContext());
+        recyclerView.setAdapter(mAdapter);
 
-        // For the first time before applying any Filtering
-        ArrayList<TripItem> FromAPI=Repository.getTrips();
-        recyclerView.setAdapter(new AdapterRecyclerTrip(FromAPI));
+        // For the first time API will take time to get Shipments from doInBackground
+        // So after we get Shipments AsyncTask onPostExecute will update LiveData
+        loadingIndicator.setVisibility(View.VISIBLE);  /*TODO Problem*/
 
-        //TODO  (Edit)ShipmentItem -> TripItem
-        //When the Data from the API Changes due to Filtering it will be updated here
-        final SearchViewModel viewModel = ViewModelProviders.of(getActivity()).get(SearchViewModel.class);
+        //When the LiveData  Changes due to Loading or Filtering it will be updated here
         viewModel.getTripLiveData().observe(getViewLifecycleOwner(), new Observer<ArrayList<TripItem>>() {
             @Override
             public void onChanged(ArrayList<TripItem> tripItems) {
-                recyclerView.setAdapter(new AdapterRecyclerTrip(tripItems));
+                recyclerView.setAdapter(new AdapterRecyclerTrip(tripItems,getContext()));
+
+                // Remove the Progress par
+                loadingIndicator.setVisibility(View.GONE);
             }
         });
     }

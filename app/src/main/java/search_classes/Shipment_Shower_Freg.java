@@ -35,7 +35,6 @@ public class Shipment_Shower_Freg extends Fragment
     {
         //Its Layout is the Recycler View as Trip_Shower_Freg
         return inflater.inflate(R.layout.recycler_viewer_search, container, false);
-
     }
 
     @Override

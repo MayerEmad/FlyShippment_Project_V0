@@ -68,12 +68,12 @@ public class AdapterRecyclerShipment extends RecyclerView.Adapter<AdapterRecycle
         ShipmentItem item = ShipmentsList.get(position);
 
         holder.product_image.setImageBitmap(item.getProduct_image());
-        holder.weight_text.setText(item.getWeight());
+        holder.weight_text.setText(item.getStrWeight());
         holder.product_name.setText(item.getProduct_name());
         holder.country_from.setText(item.getCountry_from());
         holder.country_to.setText(item.getCountry_to());
         holder.last_date.setText(item.getLast_date());
-        holder.reward_text.setText(item.getReward());
+        holder.reward_text.setText(item.getStrReward());
         holder.profile_image.setImageBitmap(item.getProfile_image());
         holder.profile_name.setText(item.getProfile_name());
         holder.sender_rate_bar.setRating(item.getUserRate());

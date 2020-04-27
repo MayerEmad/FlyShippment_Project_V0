@@ -18,16 +18,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 
-public final class QueryUtils {
+public final class ApiShipmentSearch {
 
     /**
-     * Create a private constructor because no one should ever create a {@link QueryUtils} object.
+     * Create a private constructor because no one should ever create a {@link ApiShipmentSearch} object.
      * This class is only meant to hold static variables and methods, which can be accessed
      * directly from the class name QueryUtils (and an object instance of QueryUtils is not needed).
      */
-    private QueryUtils() { }
+    private ApiShipmentSearch() { }
 
     private static ArrayList<ShipmentItem> extractJson(String responsJSON)
     {
@@ -46,15 +45,15 @@ public final class QueryUtils {
                 JSONObject currentItem = itemsArray.getJSONObject(i);
                  String prodImageURL=currentItem.getString("image");
                  String profileImageURL=currentItem.getString("url");
-                 String prodName=currentItem.getString("name");
+                 String prodName=currentItem.getString("itemName");
                  String counteryFrom=currentItem.getString("from_country");
                  String counteryTo=currentItem.getString("to_country");
                  String lastDate=currentItem.getString("deadline");
-                 String profileName=currentItem.getString("username");
+                 String profileName=currentItem.getString("user_name");
                  double reward=currentItem.getDouble("price");
                  double weight=currentItem.getDouble("weight");
                  double itemsNumber=currentItem.getInt("count");
-                 double rate=currentItem.getDouble("rate");
+                 double rate=currentItem.getDouble("user_rate");
 
                 ShipmentItem item = new ShipmentItem( bt(prodImageURL) , weight , itemsNumber, prodName, counteryFrom,counteryTo,lastDate,
                                                      reward, bt(profileImageURL), profileName,  rate);

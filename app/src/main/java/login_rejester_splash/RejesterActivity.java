@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.flyshippment_project.MainActivity;
 import com.example.flyshippment_project.R;
 
+import adapters_and_items.ApiTripSearch;
+
 public class RejesterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +33,7 @@ public class RejesterActivity extends AppCompatActivity {
            And we need to send it To data base
          */
 
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ApiTripSearch.class);
         startActivity(intent);
     }
 }

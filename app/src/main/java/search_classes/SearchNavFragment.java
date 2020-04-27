@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import adapters_and_items.AdapterViewer;
+import adapters_and_items.Repository;
 import adapters_and_items.ShipmentItem;
 import adapters_and_items.TripItem;
 
@@ -52,19 +53,35 @@ public class SearchNavFragment extends Fragment
 
     private ArrayList<ShipmentItem> getFilteredShipments()
     {
-        ArrayList<ShipmentItem> ShipmentList = new ArrayList<ShipmentItem>();
-       /* ShipmentList.add(new ShipmentItem("Urll",8.40,5,"AfterSearchSH1","NewYork","Cairo","10/4/2020",
-            16.50,"Urll","Mayer Emad",3.5));
-        ShipmentList.add(new ShipmentItem("Urll",8.40,5,"AfterSearch1","NewYork","Cairo","10/4/2020",
-                16.50,"Urll","Mayer Emad",3.5));*/
+        ArrayList<ShipmentItem> ShipmentList =Repository.getShipmentsFromApi();
+        ArrayList<ShipmentItem> filteredShipmentList= new ArrayList<ShipmentItem>();
 
-        return ShipmentList;
+        for(int i=0;i<ShipmentList.size();i++)
+           {
+               ShipmentItem item=ShipmentList.get(i);
+               //Log.i("SEARCH--->", item.getCountry_from()+" "+item.getCountry_to()+" "+item.getWeight());
+               //Log.i("copare--->", fromCountery+" "+toCountery+" "+weight);
+               if(fromCountery.equals(item.getCountry_from()) )//&& toCountery==item.getCountry_to() && weight>=item.getWeight())
+               {
+                   filteredShipmentList.add(item);
+               }
+           }
+        return filteredShipmentList;
     }
 
     private ArrayList<TripItem> getFilteredTrips()
     {
-        ArrayList<TripItem> TripList = new ArrayList<TripItem>();
-        return TripList;
+        ArrayList<TripItem> TripList = Repository.getTripsFromApi();
+        ArrayList<TripItem> filteredtripList= new ArrayList<TripItem>();
+        for(int i=0;i<TripList.size();i++)
+        {
+            TripItem item=TripList.get(i);
+            if(fromCountery.equals(item.getCountry_from()) ||toCountery.equals(item.getCountry_to())  )  // && weight>=item.getWeight())
+             {
+                filteredtripList.add(item);
+             }
+        }
+        return filteredtripList;
     }
 
     @Override
@@ -98,14 +115,17 @@ public class SearchNavFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-              /*  fromCountery=et_from.getText().toString();
+                fromCountery=et_from.getText().toString();
                 toCountery=et_to.getText().toString();
-                weight=Double.parseDouble(et_weight.getText().toString());
-                try {
+
+                String strwe=et_weight.getText().toString();
+                if(!strwe.isEmpty()) weight=Double.parseDouble(strwe);
+                try
+                {
                     date = StringToDate(et_date.getText().toString());
                 } catch (ParseException e) {
                     e.printStackTrace();
-                } */
+                }
 
                 //TODO apply filtering and store them in list
 

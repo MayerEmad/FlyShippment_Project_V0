@@ -30,7 +30,8 @@ public class ShipmentItem {
     }
 
     public Bitmap getProduct_image() { return product_image; }
-    public String getWeight(){
+    public double getWeight(){ return weight*items_number; }
+    public String getStrWeight(){
         return  Double.toString(weight*items_number)+"Kg";
     }
     public String getProduct_name() {
@@ -51,7 +52,8 @@ public class ShipmentItem {
     public float getUserRate() {
         return (float)user_rate;
     }
-    public String getReward() {
+    public double getReward() { return reward; }
+    public String getStrReward() {
         return "reward $"+Double.toString(reward);
     }
     public Bitmap getProfile_image() { return profile_image; }
